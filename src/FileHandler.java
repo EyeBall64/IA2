@@ -1,6 +1,5 @@
 import java.io.*;
 
-
 public class FileHandler {
 
     public static void appendLine(String fileName, String data) {
@@ -14,7 +13,6 @@ public class FileHandler {
         }
 
     }
-
 
     public static String readLineAt(String fileName, int startPoint) {
         // grab the line from position "start" in the file

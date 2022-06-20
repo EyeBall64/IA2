@@ -1,12 +1,14 @@
 public class DataBase {
 
+    private int totalColWidth;
     private String filename;
     private int rowWidth;
     private int recordCount;
 
-    public DataBase(String filename, int rowWidth) {
+    public DataBase(String filename, int rowWidth, int totalColWidth) {
         this.filename = filename;
         this.rowWidth = rowWidth;
+        this.totalColWidth = totalColWidth;
         recordCount = getRecordCount();
     }
 
@@ -38,8 +40,11 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
-    public String getRecord(int rowNumber) {
-        return FileHandler.readLineAt(filename, rowNumber * (rowWidth+1));
+    public String getRecord(int rowNumber,int colNumber) {
+        if(rowNumber == 0){
+            return FileHandler.readLineAt(filename, rowNumber * rowWidth) + (colNumber*totalColWidth);
+        }
+        return FileHandler.readLineAt(filename, (rowNumber * rowWidth * totalColWidth) + rowNumber);
     }
 
     public int getRecordCount() {
@@ -60,7 +65,6 @@ public class DataBase {
             counter++;
             getRecord(counter);
         }
-
 
         // search for a record matching data
         // return true if found
