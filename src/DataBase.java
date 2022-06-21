@@ -4,11 +4,13 @@ public class DataBase {
     private String filename;
     private int rowWidth;
     private int recordCount;
+    private int colNumber;
 
-    public DataBase(String filename, int rowWidth, int totalColWidth) {
+    public DataBase(String filename, int rowWidth,int colNumber, int totalColWidth) {
         this.filename = filename;
         this.rowWidth = rowWidth;
-        this.totalColWidth = totalColWidth;
+        this.colNumber = colNumber;
+        this.totalColWidth = totalColWidth;//totalColWidth is not the total column width
         recordCount = getRecordCount();
     }
 
@@ -40,14 +42,14 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
-    public String getRecord(int rowNumber,int colNumber) {
+    public String getRecord(int rowNumber) {
         if(rowNumber == 0){
-            return FileHandler.readLineAt(filename, rowNumber * rowWidth) + (colNumber*totalColWidth);
+            return FileHandler.readLineAt(filename, (colNumber*totalColWidth));
         }
-        return FileHandler.readLineAt(filename, (rowNumber * rowWidth * totalColWidth) + rowNumber);
+        return FileHandler.readLineAt(filename, (rowNumber * rowWidth * totalColWidth) + rowNumber*totalColWidth + rowNumber);
     }
 
-    public int getRecordCount() {
+   public int getRecordCount() {
         int count = 0;
         String record = getRecord(count);
         while (record != null){
@@ -58,7 +60,8 @@ public class DataBase {
         // return FileHandler.countLines(filename);
     }
 
-    public boolean findRecord(String SearchData) {
+
+    public boolean findRecord(String searchData) {
         String CurrentData = getRecord(0);
         int counter = 0;
         while(counter < recordCount){
@@ -70,4 +73,6 @@ public class DataBase {
         // return true if found
         return false;
     }
+
+
 }

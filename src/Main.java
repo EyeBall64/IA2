@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-
+//TODO: redo for inheritance
     public static void main(String[] args) {
         String direction;
         Table table = new Table();

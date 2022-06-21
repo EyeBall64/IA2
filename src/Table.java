@@ -21,7 +21,8 @@ public class Table {
                 score[x][y] = (FileScore.getShortTermScore(x,y));
             }
         }
-
+        printTable();
+        printScore();
     }
 
     public void printTable(){
