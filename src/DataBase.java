@@ -1,17 +1,13 @@
 public class DataBase {
 
-    private int totalColWidth;
+    private int fieldLength;
     private String filename;
     private int rowWidth;
-    private int recordCount;
-    private int colNumber;
 
-    public DataBase(String filename, int rowWidth,int colNumber, int totalColWidth) {
+    public DataBase(String filename, int rowWidth, int fieldLength) {
         this.filename = filename;
         this.rowWidth = rowWidth;
-        this.colNumber = colNumber;
-        this.totalColWidth = totalColWidth;//totalColWidth is not the total column width
-        recordCount = getRecordCount();
+        this.fieldLength = fieldLength;//totalColWidth is not the total column width
     }
 
     public void appendRecord(String data) {
@@ -42,37 +38,11 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
-    public String getRecord(int rowNumber) {
+    public String getRecord(int rowNumber, int colNumber) {
         if(rowNumber == 0){
-            return FileHandler.readLineAt(filename, (colNumber*totalColWidth));
+            return FileHandler.readLineAt(filename, (colNumber* fieldLength));
         }
-        return FileHandler.readLineAt(filename, (rowNumber * rowWidth * totalColWidth) + rowNumber*totalColWidth + rowNumber);
+        return FileHandler.readLineAt(filename, (rowNumber * rowWidth * fieldLength) + rowNumber* fieldLength + rowNumber);
     }
-
-   public int getRecordCount() {
-        int count = 0;
-        String record = getRecord(count);
-        while (record != null){
-            count++;
-            record = getRecord(count);
-        }
-        return count;
-        // return FileHandler.countLines(filename);
-    }
-
-
-    public boolean findRecord(String searchData) {
-        String CurrentData = getRecord(0);
-        int counter = 0;
-        while(counter < recordCount){
-            counter++;
-            getRecord(counter);
-        }
-
-        // search for a record matching data
-        // return true if found
-        return false;
-    }
-
 
 }

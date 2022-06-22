@@ -1,0 +1,7 @@
+          Singular  Plural
+Nominativea         e
+Vocative  a         e
+Accusativeam        as
+Genitive  e         arum
+Dative    e         is
+Ablative  a         is

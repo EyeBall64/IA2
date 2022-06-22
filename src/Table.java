@@ -1,15 +1,15 @@
 public class Table {
     private String [][] endings;
     private int[][] score;
-    private FileNouns noun;
+    private DataBase noun;
 
     public Table(){
-        noun = new FileNouns();
+        noun = new DataBase("C:\\Users\\16Hurley_J\\IdeaProjects\\IA3\\src\\LatinNouns.txt",30,10);
         endings = new String[7][3];
         score = new int[6][2];
         for(int x=0;x<7;x++){
             for(int y=0;y<3;y++){
-                endings[x][y] = (noun.getNouns(x,y));
+                endings[x][y] = (noun.getRecord(x,y));
             }
         }
     }
