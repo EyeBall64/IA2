@@ -3,6 +3,8 @@ import java.util.Scanner;
 public class Main {
 //TODO: redo for inheritance
     public static void main(String[] args) {
+
+
         String direction;
         Table table = new Table();
         Test test = new Test();
@@ -19,7 +21,7 @@ public class Main {
             System.out.println("leave ---> leaves");
 
             Scanner myScanner = new Scanner(System.in);
-            direction = myScanner.nextLine();
+            direction = myScanner.nextLine().toLowerCase().trim();
 
             if(direction.equals("test u")) {
                 //goes to unweighted test
@@ -36,7 +38,6 @@ public class Main {
             }
         }
         while(!direction.equals("leave"));
-
         System.out.println("bye");
     }
 }
