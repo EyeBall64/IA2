@@ -38,13 +38,8 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
-    public String getRecord(int rowIndex, int colIndex) {
-        if(rowIndex == 0){
-            return FileHandler.readLineAt(filename, (colIndex* fieldLength));
-        }
-
-
-        return FileHandler.readLineAt(filename, rowIndex*rowWidth + colIndex * fieldLength);
+    public String getRecord(int colIndex, int rowIndex) {
+      return (FileHandler.readLineAt(filename, colIndex * 2 + colIndex * rowWidth + (rowIndex) * fieldLength)).substring(0,10);
     }
 
 }

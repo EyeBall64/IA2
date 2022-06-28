@@ -3,17 +3,17 @@ import java.util.Scanner;
 
 public class Test {
     private static String[][] endings;
-    private static FileNouns noun;
+    private static DataBase noun;
     Scanner myScanner = new Scanner(System.in);
     Random rand = new Random();
 
     public Test() {
-        noun = new FileNouns();
+        noun = new DataBase("C:\\Users\\16Hurley_J\\IdeaProjects\\IA3\\src\\LatinNouns.txt",30,10);
         endings = new String[7][3];
 
         for (int x = 0; x < 7; x++) {
             for (int y = 0; y < 3; y++) {
-                endings[x][y] = (noun.getNouns(x, y));
+                endings[x][y] = (noun.getRecord(x, y));
             }
         }
     }

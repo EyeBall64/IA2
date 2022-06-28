@@ -9,15 +9,15 @@ public class Table {
         score = new int[6][2];
         for(int x=0;x<7;x++){
             for(int y=0;y<3;y++){
-                endings[x][y] = (noun.getRecord(x,y));
+                endings[x][y] = noun.getRecord(x,y).replace("|","");
             }
         }
     }
 
     public void display(){
         //gets the score for the endings
-        for(int x=0;x<6;x++){
-            for(int y=0;y<2;y++){
+        for(int x = 0; x < 6; x++){
+            for(int y = 0; y < 2; y++){
                 score[x][y] = (FileScore.getShortTermScore(x,y));
             }
         }
