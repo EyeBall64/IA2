@@ -30,9 +30,6 @@ public class DataBase {
             FileHandler.appendLine(filename, data);
         }
 
-        // TODO: Pad the data to the correct record width
-        // TODO: Report an error if the data is too long for the record
-
     }
 
     public void deleteRecord(int rowNumber) {
