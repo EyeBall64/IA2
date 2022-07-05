@@ -7,7 +7,7 @@ public class DataBase {
     public DataBase(String filename, int rowWidth, int fieldLength) {
         this.filename = filename;
         this.rowWidth = rowWidth;
-        this.fieldLength = fieldLength;//totalColWidth is not the total column width
+        this.fieldLength = fieldLength;
     }
 
     public void appendRecord(String data) {
@@ -36,7 +36,8 @@ public class DataBase {
     }
 
     public String getRecord(int colIndex, int rowIndex) {
-      return (FileHandler.readLineAt(filename, colIndex * 2 + colIndex * rowWidth + (rowIndex) * fieldLength)).substring(0,10);
+        System.out.println(FileHandler.readLineAt(filename, colIndex * 2 + colIndex * rowWidth + (rowIndex) * fieldLength));
+        return (FileHandler.readLineAt(filename, (colIndex) * 2 + colIndex * rowWidth + (rowIndex) * fieldLength)).substring(0,fieldLength);
     }
 
 }

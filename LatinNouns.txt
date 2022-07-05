@@ -1,0 +1,13 @@
+               1st (feminine) 2nd (masculine)2nd (neuter)   3rd (masc/fem) 3rd (neuter)   4th (masc/fem) 4th (neuter)   5th (feminine)|
+Nominative Sng a              us             um             -              -              us             u              es            |
+Vocative Sng   a              e              um             -              -              us             u              es            |
+Accusative Sng am             um             um             em             -              um             u              em            |
+Genitive Sng   ae             i              i              is             is             ūs             ūs             ei            |
+Dative Sng     ae             o              o              i              i              ui             ui             ei            |
+Ablative Sng   a              o              o              e              e              u              u              e             |
+Nominative Plu ae             i              a              es             a              ūs             ua             es            |
+Voactive Plu   ae             i              a              es             a              ūs             ua             es            |
+Accuastive Plu as             os             a              es             a              ūs             ua             es            |
+Genitive Plu   arum           orum           orum           um             um             uum            uum            erum          |
+Dative Plu     is             is             is             ibus           ibus           ibus           ibus           ebus          |
+Ablative Plu   is             is             is             ibus           ibus           ibus           ibus           ebus          |

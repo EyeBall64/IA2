@@ -8,11 +8,11 @@ public class Test {
     Random rand = new Random();
 
     public Test() {
-        noun = new DataBase("C:\\Users\\16Hurley_J\\IdeaProjects\\IA3\\src\\LatinNouns.txt",30,10);
-        endings = new String[7][3];
+        noun = new DataBase("LatinNouns.txt",135,15);
+        endings = new String[13][9];
 
-        for (int x = 0; x < 7; x++) {
-            for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 13; x++) {
+            for (int y = 0; y < 9; y++) {
                 endings[x][y] = (noun.getRecord(x, y));
             }
         }
@@ -23,10 +23,10 @@ public class Test {
         int yRandom;
         int xRandom;
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 96; i++) {
             do {
-                yRandom = rand.nextInt(2);
-                xRandom = rand.nextInt(6);
+                yRandom = rand.nextInt(8);
+                xRandom = rand.nextInt(12);
                 //randomises question asked
             }
             while (questions[xRandom][yRandom]); //makes sure the same question isn't asked twice
@@ -52,8 +52,8 @@ public class Test {
         int y = 0;
 
         do {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < 12; i++) {
+                for (int j = 0; j < 8; j++) {
                     total = total + FileScore.getShortTermScore(i, j);
                 }
             }
@@ -62,8 +62,8 @@ public class Test {
             //System.out.println(random);
 
             outerLoop:
-            for (int i = 1; i < 7; i++) {
-                for (int j = 1; j < 3; j++) {
+            for (int i = 1; i < 13; i++) {
+                for (int j = 1; j < 9; j++) {
                     runningTotal = runningTotal + FileScore.getShortTermScore(i, j);
                     if (random <= runningTotal) {
                         y = j;
