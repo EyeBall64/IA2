@@ -4,7 +4,10 @@ public class Main {
 //TODO: redo for inheritance
     public static void main(String[] args) {
 
+        GUIMain guiMain = new GUIMain();
 
+
+/*
         String direction;
         Table table = new Table();
         Test test = new Test();
@@ -39,5 +42,6 @@ public class Main {
         }
         while(!direction.equals("leave"));
         System.out.println("bye");
+*/
     }
 }

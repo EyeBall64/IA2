@@ -6,8 +6,8 @@ public class DataBase {
 
     public DataBase(String filename, int rowWidth, int fieldLength) {
         this.filename = filename;
-        this.rowWidth = rowWidth;
-        this.fieldLength = fieldLength;
+        this.rowWidth = rowWidth; //Total length of the line
+        this.fieldLength = fieldLength; //Length of each field in a record
     }
 
     public void appendRecord(String data) {
@@ -26,7 +26,7 @@ public class DataBase {
             }
 
         }
-        if (data.length() == 10){
+        if (data.length() == 15){
             FileHandler.appendLine(filename, data);
         }
 
@@ -35,9 +35,11 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
-    public String getRecord(int colIndex, int rowIndex) {
-        System.out.println(FileHandler.readLineAt(filename, colIndex * 2 + colIndex * rowWidth + (rowIndex) * fieldLength));
-        return (FileHandler.readLineAt(filename, (colIndex) * 2 + colIndex * rowWidth + (rowIndex) * fieldLength)).substring(0,fieldLength);
+    public String getRecord(int rowIndex, int colIndex) {
+        // (colIndex) * 2 + colIndex * rowWidth + (rowIndex) * fieldLength
+        String record = FileHandler.readLineAt(filename, (colIndex * fieldLength) + rowIndex * (rowWidth + 2));
+        //System.out.println(":" + record);
+        return (record).substring(0,fieldLength);
     }
 
 }

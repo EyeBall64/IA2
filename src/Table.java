@@ -7,8 +7,8 @@ public class Table {
         noun = new DataBase("LatinNouns.txt",135,15);
         endings = new String[13][9];
         score = new int[12][8];
-        for(int x=0;x<9;x++){
-            for(int y=0;y<13;y++){
+        for(int x=0;x<12;x++){
+            for(int y=0;y<8;y++){
                 endings[x][y] = noun.getRecord(x,y).replace("|","");
             }
         }

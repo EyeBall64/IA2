@@ -1,5 +1,7 @@
 public class FileScore {
-    private static int[][] shortTermScore = new int[7][3];
+    //TODO: Get rid of if necessary
+
+    private static int[][] shortTermScore = new int[13][9];
 
     public static void setShortTermScore(int x, int y,int shortTermScore) {
         FileScore.shortTermScore[x][y] = shortTermScore;
