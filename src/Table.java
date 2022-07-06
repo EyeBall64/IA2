@@ -39,20 +39,13 @@ public class Table {
         }
     }
 
-    public String getTable(){
+    public String getTable(int x, int y){
         //gets the table
-        for (int x = 0;x < 12;x++){
-            for(int y=0;y<8;y++){
-                if(y == 7) {
-                    System.out.println(endings[x][y]);
-                    return endings[x][y];
-                }else{
-                    System.out.print(endings[x][y]);
-                    System.out.print("|");
-                    return (endings[x][y]);
-                }
-            }
-        }
+        return endings[x][y];
+    }
+    public int getScore(int x, int y) {
+        //prints out score
+        return score[x][y];
     }
 
     public void printScore(){
@@ -78,12 +71,5 @@ public class Table {
         }
     }
 
-    public int getScore() {
-        //prints out score
-        for (int x = 0; x < 12; x++) {
-            for (int y = 0; y < 8; y++) {
-                return score[x - 1][y - 1];
-            }
-        }
-    }
+
 }

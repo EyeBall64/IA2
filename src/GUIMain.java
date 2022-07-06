@@ -19,9 +19,11 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         mainFrame.setBounds(0, 0, 365, 250);
         mainFrame.setLayout(null);
 
+
         //TODO: Add all panels, start hidden
 
         mainMenu();
+        testMenu();
         mainFrame.setVisible(true);
     }
 
@@ -74,9 +76,22 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
 
         tablePanel = new JPanel();
         tablePanel.setBounds(0, 0, 365, 250);
+        Table table = new Table();
 
-        //Table table
-        JTable tableTable = new JTable(noun,);
+        String[] columnTitles = new String[9];
+        String[][] grid = new String[12][9];
+
+        for (int y = 0; y < 9; y++) {
+            columnTitles[y] = table.getTable(0,y);
+        }
+        for (int x = 1; x < 13; x++) {
+            for (int y = 0; y < 9; y++) {
+                grid[x - 1][y] = table.getTable(x,y);
+            }
+        }
+
+       //Table table
+        JTable tableTable = new JTable(grid,columnTitles);
         tableTable.setBounds(150, 20, 50,30);
         testMenu.add(tableTable);
         mainFrame.add(tablePanel);
