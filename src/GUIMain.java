@@ -3,17 +3,21 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 public class GUIMain extends JFrame implements ActionListener, DocumentListener {
     private JFrame mainFrame;
     private JPanel mainMenu;
     private JPanel testMenu;
     private JPanel tablePanel;
+    private JPanel quickTest;
+    private JPanel shortTest;
+    private JPanel longTest;
 
     public GUIMain() {
         mainFrame = new JFrame("Latin Noun Table Revision");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(0, 0, 365, 250);
+        mainFrame.setBounds(0, 0, 1000, 700);
         mainFrame.setLayout(null);
 
         //TODO: Add all panels, start hidden
@@ -21,18 +25,23 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         mainMenu();
         testMenu();
         table();
+        quickTest();
+        shortTest();
+        longTest();
 
         mainMenu.setVisible(true);
         testMenu.setVisible(false);
         tablePanel.setVisible(false);
-
+        quickTest.setVisible(false);
+        shortTest.setVisible(false);
+        longTest.setVisible(false);
 
         mainFrame.setVisible(true);
     }
 
     private void mainMenu(){
         mainMenu = new JPanel();
-        mainMenu.setBounds(0, 0, 365, 250);
+        mainMenu.setBounds(0, 0, 1000, 700);
         mainMenu.setLayout(null);
 
         //test button
@@ -52,68 +61,107 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
 
     private void testMenu(){
         testMenu = new JPanel();
-        testMenu.setBounds(0, 0, 365, 250);
+        testMenu.setBounds(0, 0, 1000, 700);
         testMenu.setLayout(null);
 
         //noTerm Button
-        JButton noTermButton = new JButton("no");
-        noTermButton.setBounds(20, 20, 70,30);
-        noTermButton.addActionListener(this);
-        testMenu.add(noTermButton);
+        JButton quickButton = new JButton("quick");
+        quickButton.setBounds(20, 20, 70,30);
+        quickButton.addActionListener(this);
+        testMenu.add(quickButton);
 
         //shortTerm Button
         JButton shortTermButton = new JButton("short");
-        shortTermButton.setBounds(100, 20, 70,30);
+        shortTermButton.setBounds(120, 20, 70,30);
         shortTermButton.addActionListener(this);
         testMenu.add(shortTermButton);
 
         //longTerm Button
         JButton longTermButton = new JButton("long");
-        longTermButton.setBounds(150, 20, 70,30);
+        longTermButton.setBounds(220, 20, 70,30);
         longTermButton.addActionListener(this);
         testMenu.add(longTermButton);
 
         //leave Button
         JButton leaveButton = new JButton("Leave");
-        leaveButton.setBounds(100, 100, 70,30);
+        leaveButton.setBounds(120, 60, 70,30);
         leaveButton.addActionListener(this);
         testMenu.add(leaveButton);
 
         mainFrame.add(testMenu);
     }
 
+    private void quickTest() {
+        quickTest = new JPanel();
+        quickTest.setBounds(0, 0, 1000, 700);
+        quickTest.setLayout(null);
+
+        //back Button
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(120, 60, 70,30);
+        backButton.addActionListener(this);
+        quickTest.add(backButton);
+
+        mainFrame.add(quickTest);
+    }
+    private void shortTest() {
+        shortTest = new JPanel();
+        shortTest.setBounds(0, 0, 1000, 700);
+        shortTest.setLayout(null);
+
+        //back Button
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(120, 60, 70,30);
+        backButton.addActionListener(this);
+        shortTest.add(backButton);
+
+        mainFrame.add(shortTest);
+    }
+    private void longTest() {
+        longTest = new JPanel();
+        longTest.setBounds(0, 0, 1000, 700);
+        longTest.setLayout(null);
+
+        //back Button
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(120, 60, 70,30);
+        backButton.addActionListener(this);
+        longTest.add(backButton);
+
+        mainFrame.add(longTest);
+    }
+
     private void table(){
         tablePanel = new JPanel();
-        tablePanel.setBounds(0, 0, 365, 250);
+        tablePanel.setBounds(0, 0, 1000, 700);
         tablePanel.setLayout(null);
         Table table = new Table();
 
-        String[] columnTitles = new String[9];
-        String[][] grid = new String[12][9];
-
-        for (int y = 0; y < 9; y++) {
-            columnTitles[y] = table.getTable(0,y);
-        }
-        for (int x = 0; x < 12; x++) {
+        for (int x = 0; x < 13; x++) {
             for (int y = 0; y < 9; y++) {
-                grid[x][y] = table.getTable(x,y);
-                JLabel tableLabel = new JLabel(table.getTable(x,y));
-                tableLabel.setBounds(y*100, 70+x*20, 100,30);
-                tablePanel.add(tableLabel);
-                mainFrame.add(tableLabel);
+                if(y==0 || x==0) {
+                    JLabel tableLabel = new JLabel(table.getTable(x, y));
+                    tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                    tablePanel.add(tableLabel);
+                    mainFrame.add(tablePanel);
+                }else{
+                    JLabel tableLabel = new JLabel(table.getTable(x, y));
+                    tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                    tableLabel.setForeground(new Color((table.getScore(x-1, y-1))*(255/99), 255-((table.getScore(x-1, y-1))*(255/99)),0 )); //(table.getScore(x-1, y-1))
+                    tablePanel.add(tableLabel);
+                    mainFrame.add(tablePanel);
+                }
             }
         }
-
-
 
         //leave Button
         JButton leaveButton = new JButton("Leave");
         leaveButton.setBounds(100, 20, 70,30);
         leaveButton.addActionListener(this);
         tablePanel.add(leaveButton);
+
         mainFrame.add(tablePanel);
     }
-
 
         @Override
     public void actionPerformed(ActionEvent e) {
@@ -121,24 +169,59 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         Test test = new Test();
 
         switch (e.getActionCommand()){
-            case "Test" ->{
-                //goes to test Menu
-                mainMenu.setVisible(false);
-                testMenu.setVisible(true);
-                tablePanel.setVisible(false);
-            }
             case "Leave" ->{
                 //goes to main Menu
                 mainMenu.setVisible(true);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
+                quickTest.setVisible(false);
+                shortTest.setVisible(false);
+                longTest.setVisible(false);
+            }
+            case "Test", "Back" ->{
+                //goes to test Menu
+                mainMenu.setVisible(false);
+                testMenu.setVisible(true);
+                tablePanel.setVisible(false);
+                quickTest.setVisible(false);
+                shortTest.setVisible(false);
+                longTest.setVisible(false);
             }
             case "Table" -> {
                 //goes to table
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(true);
-                table.display();
+                quickTest.setVisible(false);
+                shortTest.setVisible(false);
+                longTest.setVisible(false);
+            }
+            case "quick" -> {
+                //goes to quick test
+                mainMenu.setVisible(false);
+                testMenu.setVisible(false);
+                tablePanel.setVisible(false);
+                quickTest.setVisible(true);
+                shortTest.setVisible(false);
+                longTest.setVisible(false);
+            }
+            case "short" -> {
+                //goes to short test
+                mainMenu.setVisible(false);
+                testMenu.setVisible(false);
+                tablePanel.setVisible(false);
+                quickTest.setVisible(false);
+                shortTest.setVisible(true);
+                longTest.setVisible(false);
+            }
+            case "long" -> {
+                //goes to quick test
+                mainMenu.setVisible(false);
+                testMenu.setVisible(false);
+                tablePanel.setVisible(false);
+                quickTest.setVisible(false);
+                shortTest.setVisible(false);
+                longTest.setVisible(true);
             }
         }
     }
