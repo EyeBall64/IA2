@@ -4,6 +4,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.util.Random;
 
 public class GUIMain extends JFrame implements ActionListener, DocumentListener {
     private JFrame mainFrame;
@@ -19,6 +20,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setBounds(0, 0, 1000, 700);
         mainFrame.setLayout(null);
+        Random rand = new Random();
 
         //TODO: Add all panels, start hidden
 
@@ -95,10 +97,36 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest = new JPanel();
         quickTest.setBounds(0, 0, 1000, 700);
         quickTest.setLayout(null);
+        Test test = new Test();
+        Random rand = new Random();
+        Table table = new Table();
+
+        int yRandom;
+        int xRandom;
+
+        yRandom = rand.nextInt(8);
+        xRandom = rand.nextInt(12);
+
+        JLabel questionLabel = new JLabel("what is " + table.getTable(0,yRandom+1) + " " + table.getTable(xRandom+1,0));
+        questionLabel.setBounds(120, 60, 370,30);
+        tablePanel.add(questionLabel);
+        quickTest.add(questionLabel);
+
+        //back textfield
+        JTextField answer = new JTextField("");
+        answer.setBounds(120, 100, 70,30);
+        answer.addActionListener(this);
+        quickTest.add(answer);
+
+        //confirm Button
+        JButton confirmButton = new JButton("confirm");
+        confirmButton.setBounds(200, 100, 100,30);
+        confirmButton.addActionListener(this);
+        quickTest.add(confirmButton);
 
         //back Button
         JButton backButton = new JButton("Back");
-        backButton.setBounds(120, 60, 70,30);
+        backButton.setBounds(150, 260, 70,30);
         backButton.addActionListener(this);
         quickTest.add(backButton);
 
@@ -111,7 +139,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
 
         //back Button
         JButton backButton = new JButton("Back");
-        backButton.setBounds(120, 60, 70,30);
+        backButton.setBounds(150, 260, 70,30);
         backButton.addActionListener(this);
         shortTest.add(backButton);
 
@@ -124,7 +152,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
 
         //back Button
         JButton backButton = new JButton("Back");
-        backButton.setBounds(120, 60, 70,30);
+        backButton.setBounds(150, 260, 70,30);
         backButton.addActionListener(this);
         longTest.add(backButton);
 
