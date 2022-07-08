@@ -35,6 +35,10 @@ public class DataBase {
     public void deleteRecord(int rowNumber) {
     }
 
+    public void editRecord(String data, int rowIndex, int colIndex){
+        FileHandler.writeLineAt( filename,"HH",colIndex * fieldLength + rowIndex * (rowWidth + 2));
+    }
+
     public String getRecord(int rowIndex, int colIndex) {
         // (colIndex) * 2 + colIndex * rowWidth + (rowIndex) * fieldLength
         String record = FileHandler.readLineAt(filename, (colIndex * fieldLength) + rowIndex * (rowWidth + 2));

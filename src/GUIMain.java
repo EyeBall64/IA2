@@ -14,6 +14,10 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
     private JPanel quickTest;
     private JPanel shortTest;
     private JPanel longTest;
+    private JLabel questionLabel;
+    private JTextField answer;
+    private Test test;
+    private JLabel correctLabel;
 
     public GUIMain() {
         mainFrame = new JFrame("Latin Noun Table Revision");
@@ -97,25 +101,24 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest = new JPanel();
         quickTest.setBounds(0, 0, 1000, 700);
         quickTest.setLayout(null);
-        Test test = new Test();
-        Random rand = new Random();
+        test = new Test();
         Table table = new Table();
 
-        int yRandom;
-        int xRandom;
-
-        yRandom = rand.nextInt(8);
-        xRandom = rand.nextInt(12);
-
-        JLabel questionLabel = new JLabel("what is " + table.getTable(0,yRandom+1) + " " + table.getTable(xRandom+1,0));
+        questionLabel = new JLabel(test.getQuestion());
         questionLabel.setBounds(120, 60, 370,30);
         tablePanel.add(questionLabel);
         quickTest.add(questionLabel);
 
+        correctLabel = new JLabel("INCOORECT!!!");
+        correctLabel.setBounds(350, 100, 100,30);
+        correctLabel.setForeground(new Color(250,0,0));
+        correctLabel.setVisible(false);
+        tablePanel.add(correctLabel);
+        quickTest.add(correctLabel);
+
         //back textfield
-        JTextField answer = new JTextField("");
+        answer = new JTextField("");
         answer.setBounds(120, 100, 70,30);
-        answer.addActionListener(this);
         quickTest.add(answer);
 
         //confirm Button
@@ -194,7 +197,6 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         @Override
     public void actionPerformed(ActionEvent e) {
         Table table = new Table();
-        Test test = new Test();
 
         switch (e.getActionCommand()){
             case "Leave" ->{
@@ -250,6 +252,14 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(true);
+            }
+            case "confirm" -> {
+                if(test.isAnswerCorrect(answer.getText())) {
+                    questionLabel.setText(test.getQuestion());
+                    correctLabel.setVisible(false);
+                }else{
+                    correctLabel.setVisible(true);
+                }
             }
         }
     }

@@ -11,7 +11,6 @@ public class FileHandler {
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public static String readLineAt(String fileName, int startPoint) {

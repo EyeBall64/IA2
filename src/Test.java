@@ -2,39 +2,44 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Test {
-    private static String[][] endings;
-    private static DataBase noun;
     Scanner myScanner = new Scanner(System.in);
     Random rand = new Random();
+    private int yRandom;
+    private int xRandom;
+    Table table = new Table();
+    private DataBase scoreDataBase;
 
-    public Test() {
-        noun = new DataBase("LatinNouns.txt",135,15);
-        endings = new String[13][9];
 
-        for (int x = 0; x < 13; x++) {
-            for (int y = 0; y < 9; y++) {
-                endings[x][y] = (noun.getRecord(x, y));
-            }
-        }
+    public String getQuestion(){
+        yRandom = rand.nextInt(8)+1;
+        xRandom = rand.nextInt(12)+1;
+
+        return "What is "+ (table.getTable(xRandom,0)).trim() + " " + (table.getTable(0,yRandom)).trim()+ "?";
     }
 
+    public boolean isAnswerCorrect(String entered){
+        scoreDataBase = new DataBase("Score.txt",16,2);
+        if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
+            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom,yRandom))+1),xRandom,yRandom);
+        }else{
+            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom,yRandom))-1),xRandom,yRandom);
+        }
+        return entered.trim().equals(table.getTable(xRandom,yRandom).trim());
+    }
+
+
+
     public void unweightedTest() {
-        Boolean[][] questions = {{false, false}, {false, false}, {false, false}, {false, false}, {false, false}, {false, false}};
-        int yRandom;
-        int xRandom;
+
 
         for (int i = 0; i < 96; i++) {
-            do {
-                yRandom = rand.nextInt(8);
-                xRandom = rand.nextInt(12);
-                //randomises question asked
-            }
-            while (questions[xRandom][yRandom]); //makes sure the same question isn't asked twice
 
-            questions[xRandom][yRandom] = true;
-            System.out.println("what is " + (endings[xRandom + 1][0]).trim() + " " + (endings[0][yRandom + 1]).trim());
+
+                //randomises question asked
+
+            System.out.println("what is " + (table.getTable(xRandom + 1,0)).trim() + " " + (table.getTable(0,yRandom + 1)).trim());
             String answer = myScanner.nextLine();
-            if (answer.trim().equals((endings[xRandom + 1][yRandom + 1]).trim())) {
+            if (answer.trim().equals((table.getTable(xRandom + 1,yRandom + 1)).trim())) {
                 System.out.println("Correct");
                 FileScore.changeShortTermScore(xRandom, yRandom, -1);
             } else {
@@ -73,9 +78,9 @@ public class Test {
                 }
             }
 
-            System.out.println("what is " + (endings[x][0]).trim() + " " + (endings[0][y]).trim());
+            System.out.println("what is " + (table.getTable(x,0)).trim() + " " + (table.getTable(0,y)).trim());
             String answer = myScanner.nextLine();
-            if (answer.trim().equals((endings[x][y]).trim())) {
+            if (answer.trim().equals((table.getTable(x,y)).trim())) {
                 System.out.println("Correct");
                 FileScore.changeShortTermScore(x-1, y-1, -1);
             } else {

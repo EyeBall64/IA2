@@ -21,7 +21,6 @@ public class Table {
             }
         }
 
-        printScore();
     }
 
     public void display(){
