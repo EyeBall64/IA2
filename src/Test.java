@@ -13,18 +13,29 @@ public class Test {
     public String getQuestion(){
         yRandom = rand.nextInt(8)+1;
         xRandom = rand.nextInt(12)+1;
-
+        System.out.println(getAnswer());
         return "What is "+ (table.getTable(xRandom,0)).trim() + " " + (table.getTable(0,yRandom)).trim()+ "?";
     }
 
     public boolean isAnswerCorrect(String entered){
         scoreDataBase = new DataBase("Score.txt",16,2);
-        if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
-            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom,yRandom))+1),xRandom,yRandom);
-        }else{
-            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom,yRandom))-1),xRandom,yRandom);
-        }
         return entered.trim().equals(table.getTable(xRandom,yRandom).trim());
+    }
+
+    public void editShortTerm(String entered){
+
+    }
+
+    public void editLongTerm(String entered){
+        if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
+            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))+1),xRandom-1,yRandom-1);
+        }else{
+            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))-1),xRandom-1,yRandom-1);
+        }
+    }
+
+    public String getAnswer(){
+        return table.getTable(xRandom,yRandom);
     }
 
 

@@ -4,6 +4,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.util.Objects;
 import java.util.Random;
 
 public class GUIMain extends JFrame implements ActionListener, DocumentListener {
@@ -15,9 +16,11 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
     private JPanel shortTest;
     private JPanel longTest;
     private JLabel questionLabel;
+    private JLabel correctAnswer;
     private JTextField answer;
     private Test test;
     private JLabel correctLabel;
+    private String testType;
 
     public GUIMain() {
         mainFrame = new JFrame("Latin Noun Table Revision");
@@ -102,19 +105,18 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest.setBounds(0, 0, 1000, 700);
         quickTest.setLayout(null);
         test = new Test();
-        Table table = new Table();
 
         questionLabel = new JLabel(test.getQuestion());
         questionLabel.setBounds(120, 60, 370,30);
         tablePanel.add(questionLabel);
         quickTest.add(questionLabel);
 
-        correctLabel = new JLabel("INCOORECT!!!");
-        correctLabel.setBounds(350, 100, 100,30);
-        correctLabel.setForeground(new Color(250,0,0));
-        correctLabel.setVisible(false);
-        tablePanel.add(correctLabel);
-        quickTest.add(correctLabel);
+        correctAnswer = new JLabel("The answer is " + test.getAnswer());
+        correctAnswer.setBounds(350, 100, 200,30);
+        correctAnswer.setForeground(new Color(250,0,0));
+        correctAnswer.setVisible(false);
+        tablePanel.add(correctAnswer);
+        quickTest.add(correctAnswer);
 
         //back textfield
         answer = new JTextField("");
@@ -152,6 +154,30 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         longTest = new JPanel();
         longTest.setBounds(0, 0, 1000, 700);
         longTest.setLayout(null);
+        test = new Test();
+
+        questionLabel = new JLabel(test.getQuestion());
+        questionLabel.setBounds(120, 60, 370,30);
+        tablePanel.add(questionLabel);
+        longTest.add(questionLabel);
+
+        correctLabel = new JLabel("INCOORECT!!!");
+        correctLabel.setBounds(350, 100, 100,30);
+        correctLabel.setForeground(new Color(250,0,0));
+        correctLabel.setVisible(false);
+        tablePanel.add(correctLabel);
+        longTest.add(correctLabel);
+
+        //back textfield
+        answer = new JTextField("");
+        answer.setBounds(120, 100, 70,30);
+        longTest.add(answer);
+
+        //confirm Button
+        JButton confirmButton = new JButton("confirm");
+        confirmButton.setBounds(200, 100, 100,30);
+        confirmButton.addActionListener(this);
+        longTest.add(confirmButton);
 
         //back Button
         JButton backButton = new JButton("Back");
@@ -228,6 +254,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             }
             case "quick" -> {
                 //goes to quick test
+                testType = "quick";
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -237,6 +264,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             }
             case "short" -> {
                 //goes to short test
+                testType = "short";
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -246,6 +274,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             }
             case "long" -> {
                 //goes to quick test
+                testType = "long";
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -254,11 +283,35 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                 longTest.setVisible(true);
             }
             case "confirm" -> {
-                if(test.isAnswerCorrect(answer.getText())) {
-                    questionLabel.setText(test.getQuestion());
-                    correctLabel.setVisible(false);
-                }else{
-                    correctLabel.setVisible(true);
+                switch (testType) {
+                    case "quick":
+                        System.out.println(":" + answer.getText());
+                        if (test.isAnswerCorrect(answer.getText())) {
+                            System.out.println("right");
+                            questionLabel.setText(test.getQuestion());
+                            correctAnswer.setVisible(false);
+                        } else {
+                            System.out.println("wrong");
+                            correctAnswer.setVisible(true);
+                        }
+                        break;
+                    case "short":
+                        if (test.isAnswerCorrect(answer.getText())) {
+                            questionLabel.setText(test.getQuestion());
+                            correctLabel.setVisible(false);
+                        } else {
+                            correctLabel.setVisible(true);
+                        }
+                        break;
+                    case "long":
+                        if (test.isAnswerCorrect(answer.getText())) {
+                            questionLabel.setText(test.getQuestion());
+                            test.editLongTerm(answer.getText());
+                            correctLabel.setVisible(false);
+                        } else {
+                            correctLabel.setVisible(true);
+                        }
+                        break;
                 }
             }
         }

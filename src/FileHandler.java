@@ -20,8 +20,10 @@ public class FileHandler {
             return rf.readLine();
         }
         catch (IOException e) {
+            System.out.println("read error");
             e.printStackTrace();
         }
+        System.out.println("something");
         return null;
     }
 
