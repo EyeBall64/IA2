@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,12 +8,17 @@ public class Test {
     private int yRandom;
     private int xRandom;
     Table table = new Table();
-    private DataBase scoreDataBase;
+    private DataBase scoreDataBase = new DataBase("Score.txt",16,2);
 
-
-    public String getQuestion(){
-        yRandom = rand.nextInt(8)+1;
-        xRandom = rand.nextInt(12)+1;
+    public String getQuestion(String testType){
+        if (testType.equals("quick")) {
+            yRandom = rand.nextInt(8) + 1;
+            xRandom = rand.nextInt(12) + 1;
+        }else if(testType.equals("short")){
+            shortTermTest();
+        }else{
+            longTermTest();
+        }
         System.out.println(getAnswer());
         return "What is "+ (table.getTable(xRandom,0)).trim() + " " + (table.getTable(0,yRandom)).trim()+ "?";
     }
@@ -22,7 +28,11 @@ public class Test {
     }
 
     public void editShortTerm(String entered){
-
+        if (entered.trim().equals((table.getTable(xRandom,yRandom)).trim())) {
+            FileScore.changeShortTermScore(xRandom-1, yRandom-1, -1);
+        } else {
+            FileScore.changeShortTermScore(xRandom-1, yRandom-1, 1);
+        }
     }
 
     public void editLongTerm(String entered){
@@ -70,13 +80,9 @@ public class Test {
     }
 
     public void shortTermTest() {
-        String leave;
         int total = 0;
         int runningTotal = 0;
-        int x = 0;
-        int y = 0;
 
-        do {
             for (int i = 0; i < 12; i++) {
                 for (int j = 0; j < 8; j++) {
                     total = total + FileScore.getShortTermScore(i, j);
@@ -91,28 +97,38 @@ public class Test {
                 for (int j = 1; j < 9; j++) {
                     runningTotal = runningTotal + FileScore.getShortTermScore(i, j);
                     if (random <= runningTotal) {
-                        y = j;
-                        x = i;
+                        yRandom = j;
+                        xRandom = i;
                         break outerLoop;
                     }
                 }
             }
 
-            System.out.println("what is " + (table.getTable(x,0)).trim() + " " + (table.getTable(0,y)).trim());
-            String answer = myScanner.nextLine();
-            if (answer.trim().equals((table.getTable(x,y)).trim())) {
-                System.out.println("Correct");
-                FileScore.changeShortTermScore(x-1, y-1, -1);
-            } else {
-                System.out.println("Wrong");
-                FileScore.changeShortTermScore(x-1, y-1, 1);
+
+        }
+
+    public void longTermTest() {
+        int total = 0;
+        int runningTotal = 0;
+
+            for (int i = 0; i < 12; i++) {
+                for (int j = 0; j < 8; j++) {
+                    total = total + table.getScore(i, j);
+                }
+            }
+            int random = rand.nextInt(total);
+            outerLoop:
+            for (int i = 1; i < 13; i++) {
+                for (int j = 1; j < 9; j++) {
+                    runningTotal = runningTotal + FileScore.getShortTermScore(i, j);
+                    if (random <= runningTotal) {
+                        yRandom = j;
+                        xRandom = i;
+                        break outerLoop;
+                    }
+                }
             }
 
-            System.out.println("do you want to leave");
-            leave = myScanner.nextLine();
-            runningTotal = 0;
-            total = 0;
+
         }
-        while (leave.equals("stay"));
     }
-}

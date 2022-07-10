@@ -110,7 +110,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest.setLayout(null);
         test = new Test();
 
-        quickQuestionLabel = new JLabel(test.getQuestion());
+        quickQuestionLabel = new JLabel();
         quickQuestionLabel.setBounds(120, 60, 370,30);
         tablePanel.add(quickQuestionLabel);
         quickTest.add(quickQuestionLabel);
@@ -145,6 +145,30 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         shortTest = new JPanel();
         shortTest.setBounds(0, 0, 1000, 700);
         shortTest.setLayout(null);
+        test = new Test();
+
+        shortQuestionLabel = new JLabel();
+        shortQuestionLabel.setBounds(120, 60, 370,30);
+        tablePanel.add(shortQuestionLabel);
+        shortTest.add(shortQuestionLabel);
+
+        correctLabel = new JLabel("INCORRECT!!!");
+        correctLabel.setBounds(350, 100, 100,30);
+        correctLabel.setForeground(new Color(250,0,0));
+        correctLabel.setVisible(false);
+        tablePanel.add(correctLabel);
+        shortTest.add(correctLabel);
+
+        //back textfield
+        shortAnswer = new JTextField("");
+        shortAnswer.setBounds(120, 100, 70,30);
+        shortTest.add(shortAnswer);
+
+        //confirm Button
+        JButton confirmButton = new JButton("confirm");
+        confirmButton.setBounds(200, 100, 100,30);
+        confirmButton.addActionListener(this);
+        shortTest.add(confirmButton);
 
         //back Button
         JButton backButton = new JButton("Back");
@@ -160,7 +184,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         longTest.setLayout(null);
         test = new Test();
 
-        longQuestionLabel = new JLabel(test.getQuestion());
+        longQuestionLabel = new JLabel();
         longQuestionLabel.setBounds(120, 60, 370,30);
         tablePanel.add(longQuestionLabel);
         longTest.add(longQuestionLabel);
@@ -259,6 +283,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "quick" -> {
                 //goes to quick test
                 testType = "quick";
+                test.getQuestion(testType);
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -269,6 +294,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "short" -> {
                 //goes to short test
                 testType = "short";
+                test.getQuestion(testType);
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -279,6 +305,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "long" -> {
                 //goes to quick test
                 testType = "long";
+                test.getQuestion(testType);
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -297,11 +324,12 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                             System.out.println("wrong");
                             correctAnswer.setVisible(true);
                         }
-                        quickQuestionLabel.setText(test.getQuestion());
+                        quickQuestionLabel.setText(test.getQuestion(testType));
                         break;
                     case "short":
                         if (test.isAnswerCorrect(shortAnswer.getText())) {
-                            shortQuestionLabel.setText(test.getQuestion());
+                            test.editShortTerm(longAnswer.getText());
+                            shortQuestionLabel.setText(test.getQuestion(testType));
                             correctLabel.setVisible(false);
                         } else {
                             correctLabel.setVisible(true);
@@ -311,7 +339,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                         System.out.println(":" + longAnswer.getText());
                         if (test.isAnswerCorrect(longAnswer.getText())) {
                             test.editLongTerm(longAnswer.getText());
-                            longQuestionLabel.setText(test.getQuestion());
+                            longQuestionLabel.setText(test.getQuestion(testType));
                             correctLabel.setVisible(false);
                         } else {
                             correctLabel.setVisible(true);
