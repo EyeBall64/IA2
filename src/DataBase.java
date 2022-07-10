@@ -42,6 +42,7 @@ public class DataBase {
     public String getRecord(int rowIndex, int colIndex) {
         String record = FileHandler.readLineAt(filename, (colIndex * fieldLength) + rowIndex * (rowWidth + 2));
         //System.out.println(":" + record);
+        assert record != null;
         return (record).substring(0,fieldLength);
     }
 

@@ -15,9 +15,13 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
     private JPanel quickTest;
     private JPanel shortTest;
     private JPanel longTest;
-    private JLabel questionLabel;
+    private JLabel quickQuestionLabel;
+    private JLabel shortQuestionLabel;
+    private JLabel longQuestionLabel;
     private JLabel correctAnswer;
-    private JTextField answer;
+    private JTextField quickAnswer;
+    private JTextField shortAnswer;
+    private JTextField longAnswer;
     private Test test;
     private JLabel correctLabel;
     private String testType;
@@ -106,12 +110,12 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest.setLayout(null);
         test = new Test();
 
-        questionLabel = new JLabel(test.getQuestion());
-        questionLabel.setBounds(120, 60, 370,30);
-        tablePanel.add(questionLabel);
-        quickTest.add(questionLabel);
+        quickQuestionLabel = new JLabel(test.getQuestion());
+        quickQuestionLabel.setBounds(120, 60, 370,30);
+        tablePanel.add(quickQuestionLabel);
+        quickTest.add(quickQuestionLabel);
 
-        correctAnswer = new JLabel("The answer is " + test.getAnswer());
+        correctAnswer = new JLabel("The answer was " + test.getAnswer());
         correctAnswer.setBounds(350, 100, 200,30);
         correctAnswer.setForeground(new Color(250,0,0));
         correctAnswer.setVisible(false);
@@ -119,9 +123,9 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest.add(correctAnswer);
 
         //back textfield
-        answer = new JTextField("");
-        answer.setBounds(120, 100, 70,30);
-        quickTest.add(answer);
+        quickAnswer = new JTextField("");
+        quickAnswer.setBounds(120, 100, 70,30);
+        quickTest.add(quickAnswer);
 
         //confirm Button
         JButton confirmButton = new JButton("confirm");
@@ -156,12 +160,12 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         longTest.setLayout(null);
         test = new Test();
 
-        questionLabel = new JLabel(test.getQuestion());
-        questionLabel.setBounds(120, 60, 370,30);
-        tablePanel.add(questionLabel);
-        longTest.add(questionLabel);
+        longQuestionLabel = new JLabel(test.getQuestion());
+        longQuestionLabel.setBounds(120, 60, 370,30);
+        tablePanel.add(longQuestionLabel);
+        longTest.add(longQuestionLabel);
 
-        correctLabel = new JLabel("INCOORECT!!!");
+        correctLabel = new JLabel("INCORRECT!!!");
         correctLabel.setBounds(350, 100, 100,30);
         correctLabel.setForeground(new Color(250,0,0));
         correctLabel.setVisible(false);
@@ -169,9 +173,9 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         longTest.add(correctLabel);
 
         //back textfield
-        answer = new JTextField("");
-        answer.setBounds(120, 100, 70,30);
-        longTest.add(answer);
+        longAnswer = new JTextField("");
+        longAnswer.setBounds(120, 100, 70,30);
+        longTest.add(longAnswer);
 
         //confirm Button
         JButton confirmButton = new JButton("confirm");
@@ -285,28 +289,29 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "confirm" -> {
                 switch (testType) {
                     case "quick":
-                        System.out.println(":" + answer.getText());
-                        if (test.isAnswerCorrect(answer.getText())) {
+                        System.out.println(":" + quickAnswer.getText());
+                        if (test.isAnswerCorrect(quickAnswer.getText())) {
                             System.out.println("right");
-                            questionLabel.setText(test.getQuestion());
                             correctAnswer.setVisible(false);
                         } else {
                             System.out.println("wrong");
                             correctAnswer.setVisible(true);
                         }
+                        quickQuestionLabel.setText(test.getQuestion());
                         break;
                     case "short":
-                        if (test.isAnswerCorrect(answer.getText())) {
-                            questionLabel.setText(test.getQuestion());
+                        if (test.isAnswerCorrect(shortAnswer.getText())) {
+                            shortQuestionLabel.setText(test.getQuestion());
                             correctLabel.setVisible(false);
                         } else {
                             correctLabel.setVisible(true);
                         }
                         break;
                     case "long":
-                        if (test.isAnswerCorrect(answer.getText())) {
-                            questionLabel.setText(test.getQuestion());
-                            test.editLongTerm(answer.getText());
+                        System.out.println(":" + longAnswer.getText());
+                        if (test.isAnswerCorrect(longAnswer.getText())) {
+                            test.editLongTerm(longAnswer.getText());
+                            longQuestionLabel.setText(test.getQuestion());
                             correctLabel.setVisible(false);
                         } else {
                             correctLabel.setVisible(true);

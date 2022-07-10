@@ -45,11 +45,11 @@ public class Table {
     }
 
     public String getTable(int x, int y){
-        //gets the table
+        //returns the table
         return endings[x][y];
     }
     public int getScore(int x, int y) {
-        //prints out score
+        //returns the score
         return score[x][y];
     }
 

@@ -18,7 +18,6 @@ public class Test {
     }
 
     public boolean isAnswerCorrect(String entered){
-        scoreDataBase = new DataBase("Score.txt",16,2);
         return entered.trim().equals(table.getTable(xRandom,yRandom).trim());
     }
 
@@ -27,11 +26,21 @@ public class Test {
     }
 
     public void editLongTerm(String entered){
+        int newScore;
+
+        System.out.println(entered.trim().equals(table.getTable(xRandom,yRandom).trim()));
         if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
-            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))+1),xRandom-1,yRandom-1);
+            newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))+1;
         }else{
-            scoreDataBase.editRecord( String.valueOf(Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))-1),xRandom-1,yRandom-1);
+            newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))-1;
         }
+
+        if(newScore > 99){
+            newScore = 99;
+        }else if (newScore < 0){
+            newScore = 0;
+        }
+        scoreDataBase.editRecord( String.valueOf(newScore),xRandom-1,yRandom-1);
     }
 
     public String getAnswer(){
