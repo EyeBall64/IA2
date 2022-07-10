@@ -6,7 +6,6 @@ public class Main {
 
         GUIMain guiMain = new GUIMain();
 
-
 /*
         String direction;
         Table table = new Table();

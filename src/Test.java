@@ -9,6 +9,15 @@ public class Test {
     private int xRandom;
     Table table = new Table();
     private DataBase scoreDataBase = new DataBase("Score.txt",16,2);
+    private static int[][] shortTermScore = new int[13][9];
+
+    public Test() {
+        for (int x = 0; x < 12; x++) {
+            for (int y = 0; y < 8; y++) {
+                shortTermScore[x][y] = table.getScore(x, y);
+            }
+        }
+    }
 
     public String getQuestion(String testType){
         if (testType.equals("quick")) {
@@ -29,83 +38,74 @@ public class Test {
 
     public void editShortTerm(String entered){
         if (entered.trim().equals((table.getTable(xRandom,yRandom)).trim())) {
-            FileScore.changeShortTermScore(xRandom-1, yRandom-1, -1);
+            changeShortTermScore(xRandom-1, yRandom-1, -1);
         } else {
-            FileScore.changeShortTermScore(xRandom-1, yRandom-1, 1);
+            changeShortTermScore(xRandom-1, yRandom-1, 1);
+        }
+    }
+
+    public static void changeShortTermScore ( int x, int y, int score){
+        shortTermScore[x][y] = shortTermScore[x][y] + score;
+        if (shortTermScore[x][y] < 0) {
+            shortTermScore[x][y] = 0;
+        } else if (shortTermScore[x][y] > 99) {
+            shortTermScore[x][y] = 99;
         }
     }
 
     public void editLongTerm(String entered){
         int newScore;
-
         System.out.println(entered.trim().equals(table.getTable(xRandom,yRandom).trim()));
         if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
             newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))+1;
+            System.out.println("correct");
         }else{
             newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))-1;
+            System.out.println("wrong");
         }
+
+        System.out.println("score: "+ newScore);
 
         if(newScore > 99){
             newScore = 99;
         }else if (newScore < 0){
             newScore = 0;
         }
+
         scoreDataBase.editRecord( String.valueOf(newScore),xRandom-1,yRandom-1);
     }
 
     public String getAnswer(){
         return table.getTable(xRandom,yRandom);
     }
-
-
-
-    public void unweightedTest() {
-
-
-        for (int i = 0; i < 96; i++) {
-
-
-                //randomises question asked
-
-            System.out.println("what is " + (table.getTable(xRandom + 1,0)).trim() + " " + (table.getTable(0,yRandom + 1)).trim());
-            String answer = myScanner.nextLine();
-            if (answer.trim().equals((table.getTable(xRandom + 1,yRandom + 1)).trim())) {
-                System.out.println("Correct");
-                FileScore.changeShortTermScore(xRandom, yRandom, -1);
-            } else {
-                System.out.println("Wrong");
-                FileScore.changeShortTermScore(xRandom, yRandom, 1);
-            }
-        }
+    public int getShortTermScore ( int x, int y){
+        return shortTermScore[x][y];
     }
+
 
     public void shortTermTest() {
         int total = 0;
         int runningTotal = 0;
 
-            for (int i = 0; i < 12; i++) {
-                for (int j = 0; j < 8; j++) {
-                    total = total + FileScore.getShortTermScore(i, j);
-                }
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 8; j++) {
+                total = total + getShortTermScore(i, j);
             }
-            int random = rand.nextInt(total);
-            //System.out.println(total);
-            //System.out.println(random);
-
-            outerLoop:
-            for (int i = 1; i < 13; i++) {
-                for (int j = 1; j < 9; j++) {
-                    runningTotal = runningTotal + FileScore.getShortTermScore(i, j);
-                    if (random <= runningTotal) {
-                        yRandom = j;
-                        xRandom = i;
-                        break outerLoop;
-                    }
-                }
-            }
-
-
         }
+        System.out.println(total);
+        int random = rand.nextInt(total);
+        outerLoop:
+        for (int i = 1; i < 13; i++) {
+            for (int j = 1; j < 9; j++) {
+                runningTotal = runningTotal + getShortTermScore(i, j);
+                if (random <= runningTotal) {
+                    yRandom = j+1;
+                    xRandom = i+1;
+                    break outerLoop;
+                }
+            }
+        }
+    }
 
     public void longTermTest() {
         int total = 0;
@@ -118,17 +118,15 @@ public class Test {
             }
             int random = rand.nextInt(total);
             outerLoop:
-            for (int i = 1; i < 13; i++) {
-                for (int j = 1; j < 9; j++) {
-                    runningTotal = runningTotal + FileScore.getShortTermScore(i, j);
+            for (int i = 0; i < 12; i++) {
+                for (int j = 0; j < 8; j++) {
+                    runningTotal = runningTotal + table.getScore(i, j);
                     if (random <= runningTotal) {
-                        yRandom = j;
-                        xRandom = i;
+                        yRandom = j+1;
+                        xRandom = i+1;
                         break outerLoop;
                     }
                 }
             }
-
-
         }
     }

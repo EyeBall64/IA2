@@ -19,21 +19,21 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
     private JLabel shortQuestionLabel;
     private JLabel longQuestionLabel;
     private JLabel correctAnswer;
+    private JButton longButton;
+    private JButton shortButton;
     private JTextField quickAnswer;
     private JTextField shortAnswer;
     private JTextField longAnswer;
     private Test test;
     private JLabel correctLabel;
     private String testType;
+    private boolean viewTableLong = true;
 
     public GUIMain() {
         mainFrame = new JFrame("Latin Noun Table Revision");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setBounds(0, 0, 1000, 700);
         mainFrame.setLayout(null);
-        Random rand = new Random();
-
-        //TODO: Add all panels, start hidden
 
         mainMenu();
         testMenu();
@@ -48,6 +48,10 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         quickTest.setVisible(false);
         shortTest.setVisible(false);
         longTest.setVisible(false);
+        quickQuestionLabel.setVisible(true);
+        shortQuestionLabel.setVisible(true);
+        longQuestionLabel.setVisible(true);
+
 
         mainFrame.setVisible(true);
     }
@@ -232,12 +236,28 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                 }else{
                     JLabel tableLabel = new JLabel(table.getTable(x, y));
                     tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                    tableLabel.setForeground(new Color((table.getScore(x-1, y-1))*(255/99), 255-((table.getScore(x-1, y-1))*(255/99)),0 )); //(table.getScore(x-1, y-1))
+                    if(viewTableLong) {
+                        tableLabel.setForeground(new Color((table.getScore(x - 1, y - 1)) * (255 / 99), 255 - ((table.getScore(x - 1, y - 1)) * (255 / 99)), 0));
+                    }else{
+                        tableLabel.setForeground(new Color((test.getShortTermScore(x - 1, y - 1)) * (255 / 99), 255 - ((test.getShortTermScore(x - 1, y - 1)) * (255 / 99)), 0));
+                    }
                     tablePanel.add(tableLabel);
                     mainFrame.add(tablePanel);
                 }
             }
         }
+
+        //toggleLength Button
+        longButton = new JButton("Long");
+        longButton.setBounds(200, 20, 200,30);
+        longButton.addActionListener(this);
+        tablePanel.add(longButton);
+
+        //toggleLength Button
+        shortButton = new JButton("Short");
+        shortButton.setBounds(200, 20, 200,30);
+        shortButton.addActionListener(this);
+        tablePanel.add(shortButton);
 
         //leave Button
         JButton leaveButton = new JButton("Leave");
@@ -270,6 +290,19 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
+                correctLabel.setVisible(false);
+            }
+            case "Short" ->{
+                System.out.println("SHPORT");
+                viewTableLong = !viewTableLong;
+                longButton.setVisible(true);
+                shortButton.setVisible(false);
+            }
+            case "Long" ->{
+                System.out.println("LONG");
+                viewTableLong = !viewTableLong;
+                longButton.setVisible(false);
+                shortButton.setVisible(true);
             }
             case "Table" -> {
                 //goes to table
@@ -283,7 +316,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "quick" -> {
                 //goes to quick test
                 testType = "quick";
-                test.getQuestion(testType);
+                quickQuestionLabel.setText(test.getQuestion(testType));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -294,7 +327,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "short" -> {
                 //goes to short test
                 testType = "short";
-                test.getQuestion(testType);
+                shortQuestionLabel.setText(test.getQuestion(testType));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -305,7 +338,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "long" -> {
                 //goes to quick test
                 testType = "long";
-                test.getQuestion(testType);
+                longQuestionLabel.setText(test.getQuestion(testType));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -316,19 +349,18 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
             case "confirm" -> {
                 switch (testType) {
                     case "quick":
-                        System.out.println(":" + quickAnswer.getText());
                         if (test.isAnswerCorrect(quickAnswer.getText())) {
-                            System.out.println("right");
                             correctAnswer.setVisible(false);
                         } else {
-                            System.out.println("wrong");
                             correctAnswer.setVisible(true);
                         }
                         quickQuestionLabel.setText(test.getQuestion(testType));
+                        correctAnswer.setText("The answer was " + test.getAnswer());
                         break;
                     case "short":
+                        test.editShortTerm(shortAnswer.getText());
+                        System.out.println(test.isAnswerCorrect(shortAnswer.getText()));
                         if (test.isAnswerCorrect(shortAnswer.getText())) {
-                            test.editShortTerm(longAnswer.getText());
                             shortQuestionLabel.setText(test.getQuestion(testType));
                             correctLabel.setVisible(false);
                         } else {
@@ -336,9 +368,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
                         }
                         break;
                     case "long":
-                        System.out.println(":" + longAnswer.getText());
+                        test.editLongTerm(longAnswer.getText());
                         if (test.isAnswerCorrect(longAnswer.getText())) {
-                            test.editLongTerm(longAnswer.getText());
                             longQuestionLabel.setText(test.getQuestion(testType));
                             correctLabel.setVisible(false);
                         } else {
