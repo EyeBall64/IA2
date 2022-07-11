@@ -42,19 +42,4 @@ public class FileHandler {
         }
     }
 
-    public static int countLines(String fileName) {
-        // return the number of lines in the file
-        int count = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line = br.readLine();
-            while (line != null) {
-                count++;
-                line = br.readLine();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
 }
