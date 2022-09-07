@@ -81,6 +81,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         testMenu = new JPanel();
         testMenu.setBounds(0, 0, 1000, 700);
         testMenu.setLayout(null);
+        Table table = new Table();
 
         //noTerm Button
         JButton quickButton = new JButton("quick");
@@ -105,6 +106,33 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
         leaveButton.setBounds(120, 60, 70,30);
         leaveButton.addActionListener(this);
         testMenu.add(leaveButton);
+
+        //exludes questions
+        for(int i = 1;i<5;i++){
+            JButton toggle = new JButton(table.getTable(0,i));
+            toggle.setBounds(20+(i-1)*130, 150, 125,30);
+            toggle.addActionListener(this);
+            testMenu.add(toggle);
+        }
+        for(int i = 5;i<9;i++){
+            JButton toggle = new JButton(table.getTable(0,i));
+            toggle.setBounds(20+(i-5)*130, 200, 125,30);
+            toggle.addActionListener(this);
+            testMenu.add(toggle);
+        }
+
+        for(int i = 1;i<7;i++){
+            JButton toggle = new JButton(table.getTable(i,0));
+            toggle.setBounds(20+(i-1)*130, 250, 125,30);
+            toggle.addActionListener(this);
+            testMenu.add(toggle);
+        }
+        for(int i = 7;i<13;i++){
+            JButton toggle = new JButton(table.getTable(i,0));
+            toggle.setBounds(20+(i-7)*130, 300, 125,30);
+            toggle.addActionListener(this);
+            testMenu.add(toggle);
+        }
 
         mainFrame.add(testMenu);
     }

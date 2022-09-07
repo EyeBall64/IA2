@@ -20,7 +20,6 @@ public class Table {
                 score[x][y] = Integer.parseInt(scoreDataBase.getRecord(x,y));
             }
         }
-
     }
 
     public void display(){
