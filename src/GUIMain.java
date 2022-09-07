@@ -4,10 +4,12 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Objects;
 import java.util.Random;
 
-public class GUIMain extends JFrame implements ActionListener, DocumentListener {
+public class GUIMain extends JFrame implements ActionListener, DocumentListener, ItemListener {
     private JFrame mainFrame;
     private JPanel mainMenu;
     private JPanel testMenu;
@@ -109,28 +111,32 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
 
         //exludes questions
         for(int i = 1;i<5;i++){
-            JButton toggle = new JButton(table.getTable(0,i));
+            JCheckBox toggle = new JCheckBox(table.getTable(0,i));
             toggle.setBounds(20+(i-1)*130, 150, 125,30);
-            toggle.addActionListener(this);
+            toggle.setSelected(true);
+            toggle.addItemListener(this);
             testMenu.add(toggle);
         }
         for(int i = 5;i<9;i++){
-            JButton toggle = new JButton(table.getTable(0,i));
+            JCheckBox toggle = new JCheckBox(table.getTable(0,i));
             toggle.setBounds(20+(i-5)*130, 200, 125,30);
-            toggle.addActionListener(this);
+            toggle.setSelected(true);
+            toggle.addItemListener(this);
             testMenu.add(toggle);
         }
 
         for(int i = 1;i<7;i++){
-            JButton toggle = new JButton(table.getTable(i,0));
+            JCheckBox toggle = new JCheckBox(table.getTable(i,0));
             toggle.setBounds(20+(i-1)*130, 250, 125,30);
-            toggle.addActionListener(this);
+            toggle.setSelected(true);
+            toggle.addItemListener(this);
             testMenu.add(toggle);
         }
         for(int i = 7;i<13;i++){
-            JButton toggle = new JButton(table.getTable(i,0));
+            JCheckBox toggle = new JCheckBox(table.getTable(i,0));
             toggle.setBounds(20+(i-7)*130, 300, 125,30);
-            toggle.addActionListener(this);
+            toggle.setSelected(true);
+            toggle.addItemListener(this);
             testMenu.add(toggle);
         }
 
@@ -422,5 +428,13 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener 
     @Override
     public void insertUpdate(DocumentEvent e) {
         System.out.println("insert!");
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+
+        String thing = ((JCheckBox)(e.getItemSelectable())).getText();
+
+        System.out.println(((JCheckBox)(e.getItemSelectable())).getText());
     }
 }
