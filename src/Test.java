@@ -19,7 +19,7 @@ public class Test {
         }
     }
 
-    public String getQuestion(String testType){
+    public String getQuestion(String testType, boolean[] excludedQuestions){
         if (testType.equals("quick")) {
             yRandom = rand.nextInt(8) + 1;
             xRandom = rand.nextInt(12) + 1;
@@ -29,7 +29,14 @@ public class Test {
             longTermTest();
         }
         System.out.println(getAnswer());
-        return "What is "+ (table.getTable(xRandom,0)).trim() + " " + (table.getTable(0,yRandom)).trim()+ "?";
+
+        for(int i = 1;i<19;i++) {
+            if(excludedQuestions[i-1] = true) {
+                return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
+            }
+        }
+        getQuestion(testType,excludedQuestions);
+        return "c'e una problema";
     }
 
     public boolean isAnswerCorrect(String entered){
