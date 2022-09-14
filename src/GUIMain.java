@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Objects;
-import java.util.Random;
 
 public class GUIMain extends JFrame implements ActionListener, DocumentListener, ItemListener {
     private JFrame mainFrame;
@@ -31,7 +29,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
     private JLabel correctLongLabel;
     private String testType;
     private boolean viewTableLong = true;
-    private boolean[] excludedQuestions = new boolean[20];
+    private final boolean[] includedQuestions = new boolean[20];
 
     public GUIMain() {
         mainFrame = new JFrame("Latin Noun Table Revision");
@@ -45,8 +43,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
         quickTest();
         shortTest();
         longTest();
-        for(int i = 0;i<19;i++) {
-            excludedQuestions[i] = true;
+        for(int i = 0;i<20;i++) {
+            includedQuestions[i] = true;
         }
 
         mainMenu.setVisible(true);
@@ -81,7 +79,6 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         mainFrame.add(mainMenu);
     }
-
     private void testMenu(){
         testMenu = new JPanel();
         testMenu.setBounds(0, 0, 1000, 700);
@@ -307,8 +304,6 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         @Override
     public void actionPerformed(ActionEvent e) {
-        Table table = new Table();
-
         switch (e.getActionCommand()){
             case "Leave" ->{
                 //goes to main Menu
@@ -329,7 +324,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 longTest.setVisible(false);
             }
             case "Short" ->{
-                System.out.println("SHPORT");
+                System.out.println("SHORT");
                 viewTableLong = !viewTableLong;
                 longButton.setVisible(true);
                 shortButton.setVisible(false);
@@ -352,7 +347,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
             case "quick" -> {
                 //goes to quick test
                 testType = "quick";
-                quickQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                quickQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -360,10 +355,11 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
             }
+
             case "short" -> {
                 //goes to short test
                 testType = "short";
-                shortQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                shortQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -374,7 +370,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
             case "long" -> {
                 //goes to quick test
                 testType = "long";
-                longQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                longQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
                 tablePanel.setVisible(false);
@@ -384,34 +380,30 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
             }
             case "confirm" -> {
                 switch (testType) {
-                    case "quick":
-                        if (test.isAnswerCorrect(quickAnswer.getText())) {
-                            correctAnswer.setVisible(false);
-                        } else {
-                            correctAnswer.setVisible(true);
-                        }
-                        quickQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                    case "quick" -> {
+                        correctAnswer.setVisible(!test.isAnswerCorrect(quickAnswer.getText()));
+                        quickQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                         correctAnswer.setText("The answer was " + test.getAnswer());
-                        break;
-                    case "short":
+                    }
+                    case "short" -> {
                         test.editShortTerm(shortAnswer.getText());
                         System.out.println(test.isAnswerCorrect(shortAnswer.getText()));
                         if (test.isAnswerCorrect(shortAnswer.getText())) {
-                            shortQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                            shortQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                             correctShortLabel.setVisible(false);
                         } else {
                             correctShortLabel.setVisible(true);
                         }
-                        break;
-                    case "long":
+                    }
+                    case "long" -> {
                         test.editLongTerm(longAnswer.getText());
                         if (test.isAnswerCorrect(longAnswer.getText())) {
-                            longQuestionLabel.setText(test.getQuestion(testType, excludedQuestions));
+                            longQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                             correctLongLabel.setVisible(false);
                         } else {
                             correctLongLabel.setVisible(true);
                         }
-                        break;
+                    }
                 }
             }
         }
@@ -435,18 +427,21 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-
         Table table = new Table();
         String buttonPressed = ((JCheckBox)(e.getItemSelectable())).getText();
 
         for(int i = 1;i<9;i++) {
-            if(Objects.equals(table.getTable(0, i), buttonPressed)){
-                excludedQuestions[i-1]= !excludedQuestions[i-1];
+            if(table.getTable(0, i).equals(buttonPressed)){
+                System.out.println(table.getTable(0, i) + " - " + buttonPressed);
+                includedQuestions[i-1]= !includedQuestions[i-1];
+                System.out.println(includedQuestions[i-1]);
             }
         }
         for(int i = 1;i<13;i++) {
-            if(Objects.equals(table.getTable(i,0), buttonPressed)){
-                excludedQuestions[i+7]= !excludedQuestions[i+7];
+            if(table.getTable(i,0).equals(buttonPressed)){
+                System.out.println(table.getTable(i, 0) + " - " + buttonPressed);
+                includedQuestions[i+7]= !includedQuestions[i+7];
+                System.out.println(includedQuestions[i+7]);
             }
         }
     }
