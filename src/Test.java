@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -18,10 +19,10 @@ public class Test {
         }
     }
 
-    public String getQuestions(String testType, boolean[] includedQuestions){
+    public String getQuestions(String testType, boolean[] excludedQuestions){
         if (testType.equals("quick")) {
-            xRandom = rand.nextInt(12) + 1;
             yRandom = rand.nextInt(8) + 1;
+            xRandom = rand.nextInt(12) + 1;
         }else if(testType.equals("short")){
             shortTermTest();
         }else{
@@ -29,14 +30,11 @@ public class Test {
         }
         System.out.println(getAnswer());
 
-        for(int i = 0;i<20;i++) {
-            if(includedQuestions[i]) {
-                return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
+            if(!excludedQuestions[yRandom] || !excludedQuestions[xRandom]) {
+                getQuestions(testType,excludedQuestions);
             }
-        }
-        getQuestions(testType,includedQuestions);
-        System.out.println("c'e una problema");
-        return "c'e una problema";
+
+        return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
     }
 
     public boolean isAnswerCorrect(String entered){
@@ -44,7 +42,7 @@ public class Test {
     }
 
     public void editShortTerm(String entered){
-        if (entered.trim().equals((table.getTable(xRandom,yRandom)).trim())) {//checks to see if the answer is correct
+        if (entered.trim().equals((table.getTable(xRandom,yRandom)).trim())) {
             changeShortTermScore(xRandom-1, yRandom-1, -1);
         } else {
             changeShortTermScore(xRandom-1, yRandom-1, 1);
