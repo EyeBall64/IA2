@@ -20,19 +20,25 @@ public class Test {
     }
 
     public String getQuestions(String testType, boolean[] excludedQuestions){
-        if (testType.equals("quick")) {
-            yRandom = rand.nextInt(8) + 1;
-            xRandom = rand.nextInt(12) + 1;
-        }else if(testType.equals("short")){
-            shortTermTest();
-        }else{
-            longTermTest();
-        }
-        System.out.println(getAnswer());
 
-            if(!excludedQuestions[yRandom] || !excludedQuestions[xRandom]) {
-                getQuestions(testType,excludedQuestions);
+        System.out.println(excludedQuestions[0]+ " + " + excludedQuestions[1 ]);
+        do {
+            if (testType.equals("quick")) {
+                yRandom = rand.nextInt(8) + 1;
+                xRandom = rand.nextInt(12) + 1;
+            } else if (testType.equals("short")) {
+                shortTermTest();
+            } else {
+                longTermTest();
             }
+            //System.out.println(getAnswer());
+            //System.out.println(excludedQuestions[yRandom]+ " - " + excludedQuestions[xRandom]);
+        }while (!excludedQuestions[yRandom-1] && !excludedQuestions[xRandom-1]);
+
+        //if(!excludedQuestions[yRandom] || !excludedQuestions[xRandom]) {
+        //    System.out.println();
+        //    getQuestions(testType,excludedQuestions);
+        //}
 
         return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
     }

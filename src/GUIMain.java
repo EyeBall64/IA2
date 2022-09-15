@@ -432,16 +432,12 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         for(int i = 1;i<9;i++) {
             if(table.getTable(0, i).equals(buttonPressed)){
-                System.out.println(table.getTable(0, i) + " - " + buttonPressed);
                 includedQuestions[i-1]= !includedQuestions[i-1];
-                System.out.println(includedQuestions[i-1]);
             }
         }
         for(int i = 1;i<13;i++) {
             if(table.getTable(i,0).equals(buttonPressed)){
-                System.out.println(table.getTable(i, 0) + " - " + buttonPressed);
                 includedQuestions[i+7]= !includedQuestions[i+7];
-                System.out.println(includedQuestions[i+7]);
             }
         }
     }
