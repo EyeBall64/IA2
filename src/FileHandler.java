@@ -23,16 +23,12 @@ public class FileHandler {
             System.out.println("read error");
             e.printStackTrace();
         }
-        System.out.println("something");
         return null;
     }
 
 
     public static void writeLineAt(String fileName, String data, int start) {
         // overwrite a line from position "start" in the file
-        // doesn't check that the start position is actually
-        // the beginning of the file. This will not behave well
-        // unless every line is the same length
         try (RandomAccessFile rf = new RandomAccessFile(fileName, "rws")) {
             rf.seek(start);
             rf.writeBytes(data);

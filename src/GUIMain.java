@@ -11,7 +11,9 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
     private JFrame mainFrame;
     private JPanel mainMenu;
     private JPanel testMenu;
-    private JPanel tablePanel;
+    private JPanel testingPanel;
+    private JPanel longTablePanel;
+    private JPanel shortTablePanel;
     private JPanel quickTest;
     private JPanel shortTest;
     private JPanel longTest;
@@ -49,7 +51,9 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         mainMenu.setVisible(true);
         testMenu.setVisible(false);
-        tablePanel.setVisible(false);
+        testingPanel.setVisible(false);
+        longTablePanel.setVisible(false);
+        shortTablePanel.setVisible(false);
         quickTest.setVisible(false);
         shortTest.setVisible(false);
         longTest.setVisible(false);
@@ -83,6 +87,11 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
         testMenu = new JPanel();
         testMenu.setBounds(0, 0, 1000, 700);
         testMenu.setLayout(null);
+
+        testingPanel = new JPanel();
+        testingPanel.setBounds(0, 0, 1000, 700);
+        testingPanel.setLayout(null);
+
         Table table = new Table();
 
         //noTerm Button
@@ -151,14 +160,14 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         quickQuestionLabel = new JLabel();
         quickQuestionLabel.setBounds(120, 60, 370,30);
-        tablePanel.add(quickQuestionLabel);
+        testingPanel.add(quickQuestionLabel);
         quickTest.add(quickQuestionLabel);
 
         correctAnswer = new JLabel("The answer was " + test.getAnswer());
         correctAnswer.setBounds(350, 100, 200,30);
         correctAnswer.setForeground(new Color(250,0,0));
         correctAnswer.setVisible(false);
-        tablePanel.add(correctAnswer);
+        testingPanel.add(correctAnswer);
         quickTest.add(correctAnswer);
 
         //back textfield
@@ -188,7 +197,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         shortQuestionLabel = new JLabel();
         shortQuestionLabel.setBounds(120, 60, 370,30);
-        tablePanel.add(shortQuestionLabel);
+        testingPanel.add(shortQuestionLabel);
         shortTest.add(shortQuestionLabel);
 
         correctShortLabel = new JLabel("INCORRECT!!!");
@@ -225,7 +234,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         longQuestionLabel = new JLabel();
         longQuestionLabel.setBounds(120, 60, 370,30);
-        tablePanel.add(longQuestionLabel);
+        testingPanel.add(longQuestionLabel);
         longTest.add(longQuestionLabel);
 
         correctLongLabel = new JLabel("INCORRECT!!!");
@@ -255,51 +264,75 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
     }
 
     private void table(){
-        tablePanel = new JPanel();
-        tablePanel.setBounds(0, 0, 1000, 700);
-        tablePanel.setLayout(null);
+        longTablePanel = new JPanel();
+        longTablePanel.setBounds(0, 0, 1000, 700);
+        longTablePanel.setLayout(null);
+        shortTablePanel = new JPanel();
+        shortTablePanel.setBounds(0, 0, 1000, 700);
+        shortTablePanel.setLayout(null);
         Table table = new Table();
-
-        for (int x = 0; x < 13; x++) {
-            for (int y = 0; y < 9; y++) {
-                if(y==0 || x==0) {
-                    JLabel tableLabel = new JLabel(table.getTable(x, y));
-                    tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                    tablePanel.add(tableLabel);
-                    mainFrame.add(tablePanel);
-                }else{
-                    JLabel tableLabel = new JLabel(table.getTable(x, y));
-                    tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                    if(viewTableLong) {
+        Test test = new Test();
+        //if(viewTableLong) {
+            for (int x = 0; x < 13; x++) {
+                for (int y = 0; y < 9; y++) {
+                    if (y == 0 || x == 0) {
+                        JLabel tableLabel = new JLabel(table.getTable(x, y));
+                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                        longTablePanel.add(tableLabel);
+                        mainFrame.add(longTablePanel);
+                    } else {
+                        JLabel tableLabel = new JLabel(table.getTable(x, y));
+                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                        System.out.println("long");
                         tableLabel.setForeground(new Color((table.getScore(x - 1, y - 1)) * (255 / 99), 255 - ((table.getScore(x - 1, y - 1)) * (255 / 99)), 0));
-                    }else{
-                        tableLabel.setForeground(new Color((test.getShortTermScore(x - 1, y - 1)) * (255 / 99), 255 - ((test.getShortTermScore(x - 1, y - 1)) * (255 / 99)), 0));
+                        longTablePanel.add(tableLabel);
                     }
-                    tablePanel.add(tableLabel);
-                    mainFrame.add(tablePanel);
                 }
             }
-        }
+       // }else {
+            for (int x = 0; x < 13; x++) {
+                for (int y = 0; y < 9; y++) {
+                    if (y == 0 || x == 0) {
+                        JLabel tableLabel = new JLabel(table.getTable(x, y));
+                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                        shortTablePanel.add(tableLabel);
+                        mainFrame.add(shortTablePanel);
+                    } else {
+                        JLabel tableLabel = new JLabel(table.getTable(x, y));
+                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                        System.out.println("short");
+                        tableLabel.setForeground(new Color((test.getShortTermScore(x - 1, y - 1)) * (255 / 99), 255 - ((test.getShortTermScore(x - 1, y - 1)) * (255 / 99)), 0));
+                        shortTablePanel.add(tableLabel);
+                    }
+                }
+            }
+       // }
 
         //toggleLength Button
         longButton = new JButton("Long");
         longButton.setBounds(200, 20, 200,30);
         longButton.addActionListener(this);
-        tablePanel.add(longButton);
+        shortTablePanel.add(longButton);
 
         //toggleLength Button
         shortButton = new JButton("Short");
         shortButton.setBounds(200, 20, 200,30);
         shortButton.addActionListener(this);
-        tablePanel.add(shortButton);
+        longTablePanel.add(shortButton);
 
         //leave Button
         JButton leaveButton = new JButton("Leave");
         leaveButton.setBounds(100, 20, 70,30);
         leaveButton.addActionListener(this);
-        tablePanel.add(leaveButton);
+        longTablePanel.add(leaveButton);
+        JButton leaveButton2 = new JButton("Leave");
+        leaveButton2.setBounds(100, 20, 70,30);
+        leaveButton2.addActionListener(this);
+        shortTablePanel.add(leaveButton2);
 
-        mainFrame.add(tablePanel);
+        mainFrame.add(shortTablePanel);
+        mainFrame.add(longTablePanel);
+
     }
 
         @Override
@@ -309,7 +342,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 //goes to main Menu
                 mainMenu.setVisible(true);
                 testMenu.setVisible(false);
-                tablePanel.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
@@ -318,7 +352,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 //goes to test Menu
                 mainMenu.setVisible(false);
                 testMenu.setVisible(true);
-                tablePanel.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
@@ -328,21 +363,29 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 viewTableLong = !viewTableLong;
                 longButton.setVisible(true);
                 shortButton.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(true);
+                //table();
             }
             case "Long" ->{
                 System.out.println("LONG");
                 viewTableLong = !viewTableLong;
                 longButton.setVisible(false);
                 shortButton.setVisible(true);
+                longTablePanel.setVisible(true);
+                shortTablePanel.setVisible(false);
+                //table();
             }
             case "Table" -> {
                 //goes to table
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
-                tablePanel.setVisible(true);
+                longTablePanel.setVisible(true);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
+                //table();
             }
             case "quick" -> {
                 //goes to quick test
@@ -350,7 +393,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 quickQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
-                tablePanel.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(true);
                 shortTest.setVisible(false);
                 longTest.setVisible(false);
@@ -362,7 +406,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 shortQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
-                tablePanel.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(false);
                 shortTest.setVisible(true);
                 longTest.setVisible(false);
@@ -373,7 +418,8 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 longQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                 mainMenu.setVisible(false);
                 testMenu.setVisible(false);
-                tablePanel.setVisible(false);
+                longTablePanel.setVisible(false);
+                shortTablePanel.setVisible(false);
                 quickTest.setVisible(false);
                 shortTest.setVisible(false);
                 longTest.setVisible(true);

@@ -14,14 +14,13 @@ public class Test {
     public Test() {
         for (int x = 0; x < 12; x++) {
             for (int y = 0; y < 8; y++) {
-                shortTermScore[x][y] = table.getScore(x, y);
+                shortTermScore[x][y] = 50;
             }
         }
     }
 
-    public String getQuestions(String testType, boolean[] excludedQuestions){
+    public String getQuestions(String testType, boolean[] includedQuestions){
 
-        System.out.println(excludedQuestions[0]+ " + " + excludedQuestions[1 ]);
         do {
             if (testType.equals("quick")) {
                 yRandom = rand.nextInt(8) + 1;
@@ -31,14 +30,9 @@ public class Test {
             } else {
                 longTermTest();
             }
-            //System.out.println(getAnswer());
-            //System.out.println(excludedQuestions[yRandom]+ " - " + excludedQuestions[xRandom]);
-        }while (!excludedQuestions[yRandom-1] && !excludedQuestions[xRandom-1]);
 
-        //if(!excludedQuestions[yRandom] || !excludedQuestions[xRandom]) {
-        //    System.out.println();
-        //    getQuestions(testType,excludedQuestions);
-        //}
+        }while (!includedQuestions[yRandom-1] && !includedQuestions[7+xRandom]);
+
 
         return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
     }
