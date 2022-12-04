@@ -272,7 +272,7 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
         shortTablePanel.setLayout(null);
         Table table = new Table();
         Test test = new Test();
-        //if(viewTableLong) {
+
             for (int x = 0; x < 13; x++) {
                 for (int y = 0; y < 9; y++) {
                     if (y == 0 || x == 0) {
@@ -283,42 +283,23 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                     } else {
                         JLabel tableLabel = new JLabel(table.getTable(x, y));
                         tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                        System.out.println("long");
                         tableLabel.setForeground(new Color((table.getScore(x - 1, y - 1)) * (255 / 99), 255 - ((table.getScore(x - 1, y - 1)) * (255 / 99)), 0));
                         longTablePanel.add(tableLabel);
                     }
                 }
             }
-       // }else {
-            for (int x = 0; x < 13; x++) {
-                for (int y = 0; y < 9; y++) {
-                    if (y == 0 || x == 0) {
-                        JLabel tableLabel = new JLabel(table.getTable(x, y));
-                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                        shortTablePanel.add(tableLabel);
-                        mainFrame.add(shortTablePanel);
-                    } else {
-                        JLabel tableLabel = new JLabel(table.getTable(x, y));
-                        tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
-                        System.out.println("short");
-                        tableLabel.setForeground(new Color((test.getShortTermScore(x - 1, y - 1)) * (255 / 99), 255 - ((test.getShortTermScore(x - 1, y - 1)) * (255 / 99)), 0));
-                        shortTablePanel.add(tableLabel);
-                    }
-                }
-            }
-       // }
-
-        //toggleLength Button
-        longButton = new JButton("Long");
-        longButton.setBounds(200, 20, 200,30);
-        longButton.addActionListener(this);
-        shortTablePanel.add(longButton);
 
         //toggleLength Button
         shortButton = new JButton("Short");
         shortButton.setBounds(200, 20, 200,30);
         shortButton.addActionListener(this);
         longTablePanel.add(shortButton);
+
+        //toggleLength Button
+        JButton longButton = new JButton("Long");
+        longButton.setBounds(200, 20, 200,30);
+        longButton.addActionListener(this);
+        shortTablePanel.add(longButton);
 
         //leave Button
         JButton leaveButton = new JButton("Leave");
@@ -337,7 +318,49 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
 
         @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()){
+            Table table = new Table();
+            switch (e.getActionCommand()){
+                case "Table" -> {
+                    //goes to table
+                    mainMenu.setVisible(false);
+                    testMenu.setVisible(false);
+                    longTablePanel.setVisible(true);
+                    shortTablePanel.setVisible(false);
+                    quickTest.setVisible(false);
+                    shortTest.setVisible(false);
+                    longTest.setVisible(false);
+                    correctShortLabel.setVisible(false);
+                    correctLongLabel.setVisible(false);
+                    shortTablePanel.removeAll();
+                    for (int x = 0; x < 13; x++) {
+                        for (int y = 0; y < 9; y++) {
+                            if (y == 0 || x == 0) {
+                                JLabel tableLabel = new JLabel(table.getTable(x, y));
+                                tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                                shortTablePanel.add(tableLabel);
+                                mainFrame.add(shortTablePanel);
+                            } else {
+                                JLabel tableLabel = new JLabel(table.getTable(x, y));
+                                tableLabel.setBounds(y * 100, 70 + x * 20, 100, 30);
+                                tableLabel.setForeground(new Color((test.getShortTermScore(x - 1, y - 1)) * (255 / 99), 255 - ((test.getShortTermScore(x - 1, y - 1)) * (255 / 99)), 0));
+                                shortTablePanel.add(tableLabel);
+                            }
+                        }
+                    }
+                    JButton leaveButton2 = new JButton("Leave");
+                    leaveButton2.setBounds(100, 20, 70,30);
+                    leaveButton2.addActionListener(this);
+                    shortTablePanel.add(leaveButton2);
+
+                    //toggleLength Button
+                    longButton = new JButton("Long");
+                    longButton.setBounds(200, 20, 200,30);
+                    longButton.addActionListener(this);
+                    shortTablePanel.add(longButton);
+
+                    mainFrame.add(shortTablePanel);
+
+                }
             case "Leave" ->{
                 //goes to main Menu
                 mainMenu.setVisible(true);
@@ -359,34 +382,20 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                 longTest.setVisible(false);
             }
             case "Short" ->{
-                System.out.println("SHORT");
                 viewTableLong = !viewTableLong;
                 longButton.setVisible(true);
                 shortButton.setVisible(false);
                 longTablePanel.setVisible(false);
                 shortTablePanel.setVisible(true);
-                //table();
             }
             case "Long" ->{
-                System.out.println("LONG");
                 viewTableLong = !viewTableLong;
                 longButton.setVisible(false);
                 shortButton.setVisible(true);
                 longTablePanel.setVisible(true);
                 shortTablePanel.setVisible(false);
-                //table();
             }
-            case "Table" -> {
-                //goes to table
-                mainMenu.setVisible(false);
-                testMenu.setVisible(false);
-                longTablePanel.setVisible(true);
-                shortTablePanel.setVisible(false);
-                quickTest.setVisible(false);
-                shortTest.setVisible(false);
-                longTest.setVisible(false);
-                //table();
-            }
+
             case "quick" -> {
                 //goes to quick test
                 testType = "quick";
@@ -433,7 +442,6 @@ public class GUIMain extends JFrame implements ActionListener, DocumentListener,
                     }
                     case "short" -> {
                         test.editShortTerm(shortAnswer.getText());
-                        System.out.println(test.isAnswerCorrect(shortAnswer.getText()));
                         if (test.isAnswerCorrect(shortAnswer.getText())) {
                             shortQuestionLabel.setText(test.getQuestions(testType, includedQuestions));
                             correctShortLabel.setVisible(false);

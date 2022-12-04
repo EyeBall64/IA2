@@ -1,9 +1,7 @@
 import java.util.Objects;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Test {
-    Scanner myScanner = new Scanner(System.in);
     Random rand = new Random();
     private int yRandom;
     private int xRandom;
@@ -33,7 +31,7 @@ public class Test {
 
         }while (!includedQuestions[yRandom-1] && !includedQuestions[7+xRandom]);
 
-
+        System.out.println(table.getTable(xRandom, yRandom));
         return "What is " + (table.getTable(xRandom, 0)).trim() + " " + (table.getTable(0, yRandom)).trim() + "?";
     }
 
@@ -43,9 +41,9 @@ public class Test {
 
     public void editShortTerm(String entered){
         if (entered.trim().equals((table.getTable(xRandom,yRandom)).trim())) {
-            changeShortTermScore(xRandom-1, yRandom-1, -1);
+            changeShortTermScore(xRandom-1, yRandom-1, -40);
         } else {
-            changeShortTermScore(xRandom-1, yRandom-1, 1);
+            changeShortTermScore(xRandom-1, yRandom-1, 40);
         }
     }
 
@@ -60,7 +58,6 @@ public class Test {
 
     public void editLongTerm(String entered){
         int newScore;
-        System.out.println(entered.trim().equals(table.getTable(xRandom,yRandom).trim()));
         if(entered.trim().equals(table.getTable(xRandom,yRandom).trim())){
             newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))+1;
             System.out.println("correct");
@@ -68,8 +65,6 @@ public class Test {
             newScore = Integer.parseInt(scoreDataBase.getRecord(xRandom-1,yRandom-1))-1;
             System.out.println("wrong");
         }
-
-        System.out.println("score: "+ newScore);
 
         if(newScore > 99){
             newScore = 99;
@@ -97,7 +92,6 @@ public class Test {
                 total = total + getShortTermScore(i, j);
             }
         }
-        System.out.println(total);
         int random = rand.nextInt(total);
         outerLoop:
         for (int i = 1; i < 13; i++) {
